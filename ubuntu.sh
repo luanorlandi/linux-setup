@@ -39,3 +39,6 @@ rm hyper.deb
 sudo apt install zsh -y
 sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
 echo "bash -c zsh" >> ~/.bash_profile
+
+# Docker
+sh -c "$(wget https://get.docker.com/ -O -)"

@@ -1,44 +1,69 @@
+#!bin/bash
+
 # Update apt
-sudo apt update
+echo "Updating apt" &&
+apt update > /dev/null
+
+# Install GET if not installed already
+command -v GET > /dev/null || (
+    echo "Installing GET" &&
+    apt install libwww-perl > /dev/null
+)
 
 # Google Chrome
-GET https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb > google.deb
-sudo dpkg -i google.deb
-sudo apt-get -f install -y
+echo 'Installing Google Chrome' &&
+GET https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb > google.deb &&
+(dpkg -i google.deb > /dev/null || apt install -fy > /dev/null) &&
+google-chrome --version &&
 rm google.deb
 
 # Change Favorite apps
-dconf write /org/gnome/shell/favorite-apps "['org.gnome.Nautilus.desktop', 'google-chrome.desktop']"
+command -v dconf > /dev/null &&
+echo 'Changing Favorite apps' &&
+dconf && dconf write /org/gnome/shell/favorite-apps "['org.gnome.Nautilus.desktop', 'google-chrome.desktop']"
 
 # Remote server
-sudo apt-get install openssh-server -y
+echo 'Installing openssh-server' &&
+apt install openssh-server -y > /dev/null &&
+ps ax | grep sshd
 
 # Visual Studio Code
-GET https://vscode-update.azurewebsites.net/latest/linux-deb-x64/stable > code.deb
-sudo dpkg -i code.deb
+echo 'Installing Visual Studio Code' &&
+GET https://vscode-update.azurewebsites.net/latest/linux-deb-x64/stable > code.deb &&
+(dpkg -i code.deb > /dev/null || apt install -fy > /dev/null) &&
+code -v &&
 rm code.deb
 
 # Git
-sudo apt install git -y
+echo 'Installing Git' &&
+(apt install git -y > /dev/null || apt install -fy > /dev/null) &&
+git --version
 
 # Node
-GET https://raw.githubusercontent.com/creationix/nvm/master/install.sh > nvm.sh &&
-chmod 777 nvm.sh &&
-./nvm.sh
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-nvm install node --lts --latest-npm
+echo 'Installing Node' &&
+bash <(GET https://raw.githubusercontent.com/creationix/nvm/master/install.sh) &&
+export NVM_DIR="$HOME/.nvm" &&
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" &&  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" &&  # This loads nvm bash_completion
+nvm install node --lts --latest-npm &&
+node -v &&
+nvm -v &&
 
 # Hyper
-GET https://releases.hyper.is/download/deb > hyper.deb
-sudo dpkg -i hyper.deb
-rm hyper.deb
+echo 'Installing Hyper' &&
+GET https://releases.hyper.is/download/deb > hyper.deb &&
+(dpkg -i hyper.deb > /dev/null || apt install -fy > /dev/null) &&
+rm hyper.deb &&
+echo "Hyper installed"
 
 # Zsh
-sudo apt install zsh -y
-sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
-echo "bash -c zsh" >> ~/.bash_profile
+echo 'Installing Zsh' &&
+apt install zsh -y > /dev/null &&
+sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)" > /dev/null &&
+chsh -s /bin/bash &&
+zsh --version
 
 # Docker
-sh -c "$(wget https://get.docker.com/ -O -)"
+echo "Installing Docker"
+sh -c "$(wget https://get.docker.com/ -O -)" > /dev/null
+docker -v

@@ -10,14 +10,14 @@ command -v GET > /dev/null || (
     apt install libwww-perl > /dev/null
 )
 
-# Google Chrome
+# Google Chrome fail
 echo 'Installing Google Chrome' &&
-GET https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb > google.deb &&
-(dpkg -i google.deb > /dev/null || apt install -fy > /dev/null) &&
+GET https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb > google-chrome.deb &&
+(dpkg -i google-chrome.deb > /dev/null || apt install -fy > /dev/null) &&
 google-chrome --version &&
-rm google.deb
+rm google-chrome.deb
 
-# Change Favorite apps
+# Change Favorite apps fail
 command -v dconf > /dev/null &&
 echo 'Changing Favorite apps' &&
 dconf && dconf write /org/gnome/shell/favorite-apps "['org.gnome.Nautilus.desktop', 'google-chrome.desktop']"
@@ -27,7 +27,7 @@ echo 'Installing openssh-server' &&
 apt install openssh-server -y > /dev/null &&
 ps ax | grep sshd
 
-# Visual Studio Code
+# Visual Studio Code fail
 echo 'Installing Visual Studio Code' &&
 GET https://vscode-update.azurewebsites.net/latest/linux-deb-x64/stable > code.deb &&
 (dpkg -i code.deb > /dev/null || apt install -fy > /dev/null) &&
@@ -39,7 +39,7 @@ echo 'Installing Git' &&
 (apt install git -y > /dev/null || apt install -fy > /dev/null) &&
 git --version
 
-# Node
+# Node fail
 echo 'Installing Node' &&
 bash <(GET https://raw.githubusercontent.com/creationix/nvm/master/install.sh) &&
 export NVM_DIR="$HOME/.nvm" &&
@@ -49,7 +49,7 @@ nvm install node --lts --latest-npm &&
 node -v &&
 nvm -v &&
 
-# Hyper
+# Hyper fail
 echo 'Installing Hyper' &&
 GET https://releases.hyper.is/download/deb > hyper.deb &&
 (dpkg -i hyper.deb > /dev/null || apt install -fy > /dev/null) &&

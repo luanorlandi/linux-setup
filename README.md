@@ -8,6 +8,7 @@ For Ubuntu setup, run the following commands:
 
 ```bash
 GET https://raw.githubusercontent.com/luanorlandi/setup-os/master/ubuntu.sh > ubuntu.sh
+chmod +x ubuntu.sh
 sudo ./ubuntu.sh
 ```
 

@@ -47,7 +47,7 @@ export NVM_DIR="$HOME/.nvm" &&
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" &&  # This loads nvm bash_completion
 nvm install node --lts --latest-npm &&
 node -v &&
-nvm -v &&
+nvm -v
 
 # Hyper
 echo 'Installing Hyper' &&

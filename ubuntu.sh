@@ -20,7 +20,7 @@ rm google-chrome.deb
 # Change Favorite apps
 command -v dconf > /dev/null &&
 echo 'Changing Favorite apps' &&
-dconf && dconf write /org/gnome/shell/favorite-apps "['org.gnome.Nautilus.desktop', 'google-chrome.desktop']"
+dconf write /org/gnome/shell/favorite-apps "['org.gnome.Nautilus.desktop', 'google-chrome.desktop']"
 
 # Remote server
 echo 'Installing openssh-server' &&

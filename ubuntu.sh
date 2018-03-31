@@ -12,7 +12,7 @@ command -v GET > /dev/null || (
 
 # Google Chrome
 echo 'Installing Google Chrome' &&
-GET https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb > google-chrome.deb &&
+wget -qO google-chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb &&
 (dpkg -i google-chrome.deb > /dev/null || apt install -fy > /dev/null) &&
 google-chrome --version &&
 rm google-chrome.deb
@@ -29,7 +29,7 @@ ps ax | grep sshd
 
 # Visual Studio Code
 echo 'Installing Visual Studio Code' &&
-GET https://vscode-update.azurewebsites.net/latest/linux-deb-x64/stable > code.deb &&
+wget -qO code.deb https://vscode-update.azurewebsites.net/latest/linux-deb-x64/stable &&
 (dpkg -i code.deb > /dev/null || apt install -fy > /dev/null) &&
 code -v &&
 rm code.deb
@@ -41,17 +41,18 @@ git --version
 
 # Node
 echo 'Installing Node' &&
-bash <(GET https://raw.githubusercontent.com/creationix/nvm/master/install.sh) &&
+wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash &&
 export NVM_DIR="$HOME/.nvm" &&
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" &&  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" &&  # This loads nvm bash_completion
 nvm install node --lts --latest-npm &&
 node -v &&
 npm -v
+sudo chown -R $USER:$(id -gn $USER) /home/lorlandi/.config # Allow npm update check in zsh
 
 # Hyper
 echo 'Installing Hyper' &&
-GET https://releases.hyper.is/download/deb > hyper.deb &&
+wget -qO hyper.deb https://releases.hyper.is/download/deb &&
 (dpkg -i hyper.deb > /dev/null || apt install -fy > /dev/null) &&
 rm hyper.deb &&
 echo "Hyper installed"
@@ -67,3 +68,6 @@ zsh --version
 echo "Installing Docker"
 sh -c "$(wget https://get.docker.com/ -O -)" > /dev/null
 docker -v
+
+# Remove Amazon
+sudo rm /usr/share/applications/ubuntu-amazon-default.desktop
